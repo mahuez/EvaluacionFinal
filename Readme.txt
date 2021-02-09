@@ -85,4 +85,4 @@ Ruta de repositorios GitHub:
 - Alejandro Almarza: https://github.com/Cathy-P3/EvaluacionFinalModulo5.git
 - Bayron Bravo: https://github.com/Byron2408/EvaluacuonFinalModulo5.git
 - Catherine Poblete: https://github.com/Cathy-P3/EvaluacionFinalModulo5.git
-- Manuel Araya: https://github.com/mahuez/EvaluacionFinalModulo5.git
+- Manuel Araya: https://github.com/mahuez/EvaluacionFinal.git
