@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+<!-- A que oagina puede acceder cada usuario -->
+	<http auto-config="true">
+		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/contacto" access="hasRole('CLIENTE')" />
+		
+		<!--  Administrativo -->
+		<intercept-url pattern="/listaradministrativo" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/detalleadministrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/crearadministrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesarcrearadministrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/eliminaradministrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/editaradministrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesaeditaradministrativo/**" access="hasRole('ADMINISTRATIVO')" />
+		
+		
+		
+		<!--  Capacitacion -->
+		<intercept-url pattern="/listarcapacitacion/**" access="hasRole('CLIENTE')" />
+		<intercept-url pattern="/detallecapacitacion/**" access="hasRole('CLIENTE')" />
+		<intercept-url pattern="/crearcapacitacion/**" access="hasRole('CLIENTE')" />
+		<intercept-url pattern="/procesarcrear/**" access="hasRole('CLIENTE')" />
+		<intercept-url pattern="/eliminarcapacitacion/**" access="hasRole('CLIENTE')" />
+		<intercept-url pattern="/editarcapacitacion/**" access="hasRole('CLIENTE')" />
+		<intercept-url pattern="/procesaeditarcapa/**" access="hasRole('CLIENTE')" />
+
+		
+		<!--  Cliente  -->
+		<intercept-url pattern="/listarcliente/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/detallecliente/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/crearcliente/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesarcrearcliente/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/eliminarcliente/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/editarcliente/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesaeditarcliente/**" access="hasRole('ADMINISTRATIVO')" />
+		
+		
+		<!--  Pagos-->
+		<intercept-url pattern="/listarpagos/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/detallepagos/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/crearpagos/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesarcrearpagos/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/eliminarpagos/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/editarpagos/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesaeditarpagos/**" access="hasRole('ADMINISTRATIVO')" />
+				
+		
+		
+		<!--  Profesional  -->
+		<intercept-url pattern="/listarprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/detalleprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/crearprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesarcrearprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/eliminarprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/editarprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesaeditarprofesional/**" access="hasRole('ADMINISTRATIVO')" />
+		
+		
+		
+		<!--  Usuarios  -->
+		<intercept-url pattern="/listarusuario" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/crearusuario" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/selecciontipousuario/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesarcrearusuario/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/eliminarusuario/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/editarusuario/**" access="hasRole('ADMINISTRATIVO')" />
+		<intercept-url pattern="/procesaeditarusuario/**" access="hasRole('ADMINISTRATIVO')" />
+		
+		
+		
+		<!--  Visita  -->
+		<intercept-url pattern="/listarvisita/**" access="hasRole('PROFESIONAL')" />
+		<intercept-url pattern="/detallevisita/**" access="hasRole('PROFESIONAL')" />
+		<intercept-url pattern="/crearvisita/**" access="hasRole('PROFESIONAL')" />
+		<intercept-url pattern="/procesarcrearvisita/**" access="hasRole('PROFESIONAL')" />
+		<intercept-url pattern="/eliminarvisita/**" access="hasRole('PROFESIONAL')" />
+		<intercept-url pattern="/editarvisita/**" access="hasRole('PROFESIONAL')" />
+		<intercept-url pattern="/procesaeditarvisita/**" access="hasRole('PROFESIONAL')" />
+		
+		<form-login 
+		login-page="/login"
+		authentication-failure-url="/error"
+		       username-parameter="username"
+		       password-parameter="password"
+		/>
+		<csrf disabled="true"/>
+		<logout logout-success-url="/login" />
+		
+		
+		<csrf disabled="true"/>
+	</http>
+<!-- Se define usuario/su clave/ y el rol que se le otorga -->
+	<authentication-manager>
+		<authentication-provider>
+		<user-service>
+			<user name="manuel" password="{noop}1234" authorities="ROLE_ADMINISTRATIVO" />
+			<user name="cathi" password="{noop}5678" authorities="ROLE_USUARIO, ROLE_PROFESIONAL" />
+			<user name="byron" password="{noop}4321" authorities="ROLE_CLIENTE" />
+			<user name="lale" password="{noop}8765" authorities="ROLE_PROFESIONAL" />
+		</user-service>
+		</authentication-provider>
+	</authentication-manager>
+</bean:beans>
+

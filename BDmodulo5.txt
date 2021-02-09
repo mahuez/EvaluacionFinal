@@ -1,0 +1,163 @@
+DROP TABLE usuario CASCADE CONSTRAINTS;
+
+DROP TABLE administrativo CASCADE CONSTRAINTS;
+
+DROP TABLE cliente CASCADE CONSTRAINTS;
+
+DROP TABLE profesional CASCADE CONSTRAINTS;
+
+DROP TABLE capacitacion CASCADE CONSTRAINTS;
+
+DROP TABLE visita CASCADE CONSTRAINTS;
+
+DROP TABLE pagos CASCADE CONSTRAINTS;
+
+DROP TABLE detallechequeo CASCADE CONSTRAINTS;
+
+
+
+--SE CREA TABLA DE USUARIOS Y SU PK
+CREATE TABLE usuario (
+    nombre           VARCHAR2(30) NOT NULL,
+    apellido         VARCHAR2(50) NOT NULL,
+    fechanacimiento  VARCHAR2(50) NOT NULL,
+    runusu              NUMBER(9) NOT NULL,
+    tipo              VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( runusu );
+
+
+--SE CREA TABLA ADMINISTRATIVO Y SU PK
+CREATE TABLE administrativo (
+    rutadmin          NUMBER(9) NOT NULL,
+    nombres      VARCHAR2(30) NOT NULL,
+    apellidos    VARCHAR2(50) NOT NULL,
+    email        VARCHAR2(50) NOT NULL,
+    area         VARCHAR2(50) NOT NULL,
+    usuario_runusu  NUMBER(9) NOT NULL
+);
+
+ALTER TABLE administrativo ADD CONSTRAINT administrativo_pk PRIMARY KEY ( rutadmin );
+
+
+--SE CREA TABLA CLIENTE Y SU PK
+CREATE TABLE cliente (
+    rutcliente        NUMBER(9) NOT NULL,
+    clinombres        VARCHAR2(30) NOT NULL,
+    cliapellidos      VARCHAR2(50) NOT NULL,
+    clitelefono       VARCHAR2(20) NOT NULL,
+    cliafp            VARCHAR2(30),
+    clisistemasalud   VARCHAR2(30),
+    clidireccion      VARCHAR2(100) NOT NULL,
+    clicomuna         VARCHAR2(50) NOT NULL,
+    cliedad           NUMBER(3) NOT NULL,
+    usuario_runusu         NUMBER(9) NOT NULL
+);
+
+ALTER TABLE cliente ADD CONSTRAINT cliente_pk PRIMARY KEY ( rutcliente  );
+
+--SE CREA TABLA DE PROFESIONALES Y SU PK
+CREATE TABLE profesional (
+    runprof                 NUMBER(9) NOT NULL,
+    nombres             VARCHAR2(30) NOT NULL,
+    apellidos           VARCHAR2(50) NOT NULL,
+    telefono            NUMBER(11) NOT NULL,
+    tituloprofesional   VARCHAR2(50) NOT NULL,
+    proyecto            VARCHAR2(50) NOT NULL,
+    usuario_runusu           NUMBER(9) NOT NULL
+);
+
+ALTER TABLE profesional ADD CONSTRAINT profesional_pk PRIMARY KEY ( runprof  );
+
+
+--SE CREA TABLA CAPACITACION Y SU PK
+CREATE TABLE capacitacion (
+    idcapacitacion         NUMBER(9) NOT NULL,
+    capfecha               VARCHAR2(50) NOT NULL,
+    caphora                VARCHAR2(50) NOT NULL,
+    caplugar               VARCHAR2(50) NOT NULL,
+    capduracion            NUMBER(3),
+    cliente_rutcliente   NUMBER(9) NOT NULL
+);
+
+ALTER TABLE capacitacion ADD CONSTRAINT capacitacion_pk PRIMARY KEY ( idcapacitacion );
+
+
+--SE CREA TABLA VISITA Y SU PK
+CREATE TABLE visita (
+    idvisita               NUMBER(9) NOT NULL,
+    visfecha               VARCHAR2(50) NOT NULL,
+    vishora                VARCHAR2(50) NOT NULL,
+    vislugar               VARCHAR2(50) NOT NULL,
+    viscomentarios         VARCHAR2(250) NOT NULL,
+    cliente_rutcliente  NUMBER(9) NOT NULL
+);
+
+ALTER TABLE visita ADD CONSTRAINT visita_pk PRIMARY KEY ( idvisita );
+
+
+--SE CREA TABLA DE PAGOS Y SU PK
+CREATE TABLE pagos (
+    idpagos                NUMBER(9) NOT NULL,
+    fechapago              VARCHAR2(50) NOT NULL,
+    monto                  NUMBER NOT NULL,
+    mes                    VARCHAR2(20) NOT NULL,
+    año                    NUMBER(4) NOT NULL,
+    cliente_rutcliente   NUMBER(9) NOT NULL
+);
+
+ALTER TABLE pagos ADD CONSTRAINT pagos_pk PRIMARY KEY ( idpagos );
+
+
+--SE CREA TABLA DETALLE DE CHEQUEO Y SU PK
+CREATE TABLE detallechequeo (
+    idchequeo            VARCHAR2(30) NOT NULL,
+    cumple_observaciones  VARCHAR2(120) NOT NULL,
+    visita_idvisita       NUMBER(9) NOT NULL
+);
+
+ALTER TABLE detallechequeo ADD CONSTRAINT detallechequeo_pk PRIMARY KEY ( idchequeo);
+
+
+--SE ALTERA TABLA ADMINISTRATIVO CON SU FK
+ALTER TABLE administrativo
+    ADD CONSTRAINT administrativo_usuario_fk FOREIGN KEY ( usuario_runusu )
+        REFERENCES usuario ( runusu )
+    NOT DEFERRABLE;
+    
+--SE ALTERA TABLA CLIENTE CON SU FK
+ALTER TABLE cliente
+    ADD CONSTRAINT cliente_usuario_fk FOREIGN KEY ( usuario_runusu )
+        REFERENCES usuario ( runusu )
+    NOT DEFERRABLE;
+    
+--SE ALTERA TABLA PROFESIONAL CON SU FK 
+ALTER TABLE profesional
+    ADD CONSTRAINT profesional_usuario_fk FOREIGN KEY ( usuario_runusu )
+        REFERENCES usuario ( runusu )
+    NOT DEFERRABLE;
+    
+--SE ALTERA TABLA CAPACITACION CON SU FK
+ALTER TABLE capacitacion
+    ADD CONSTRAINT capacitacion_cliente_fk FOREIGN KEY ( cliente_rutcliente  )
+        REFERENCES cliente ( rutcliente  )
+    NOT DEFERRABLE;
+    
+--SE ALTERA TABLA VISITA CON SU FK
+ALTER TABLE visita
+    ADD CONSTRAINT visita_administrativo_fk FOREIGN KEY ( cliente_rutcliente )
+        REFERENCES cliente ( rutcliente  )
+    NOT DEFERRABLE;
+
+--SE ALTERA TABLA PAGOS CON SU FK
+ALTER TABLE pagos
+    ADD CONSTRAINT pagos_cliente_fk FOREIGN KEY ( cliente_rutcliente  )
+        REFERENCES cliente ( rutcliente  )
+    NOT DEFERRABLE;
+
+
+ALTER TABLE detallechequeo
+    ADD CONSTRAINT detallechequeo_visita_fk FOREIGN KEY ( visita_idvisita )
+        REFERENCES visita ( idvisita )
+    NOT DEFERRABLE;
